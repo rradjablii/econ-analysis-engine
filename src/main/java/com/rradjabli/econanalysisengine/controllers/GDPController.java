@@ -27,6 +27,9 @@ public class GDPController {
         return GDPService.getGDP_Nominal();
     }
 
-
+    @GetMapping("/divergence")
+    public ResponseEntity<String> getGdp_divergence() {
+        return GDPService.getGDP_Divergence();
+    }
 
 }
