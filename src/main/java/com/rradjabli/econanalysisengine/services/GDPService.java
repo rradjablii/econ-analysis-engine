@@ -50,6 +50,13 @@ public class GDPService {
         return ResponseEntity.ok(divergence.toString());
     }
 
+    @Cacheable(value = "economicData", key = "'unemploymentRate'")
+    public ResponseEntity<String> getUnemploymentRate() {
+        String unemploymentRate = WorldBankApiRequests.getRawUnemploymentData();
+        unemploymentRate = economicDataParser.parseValueByYear(unemploymentRate).toString();
+        return ResponseEntity.ok(unemploymentRate);
+    }
+
 
 
 }

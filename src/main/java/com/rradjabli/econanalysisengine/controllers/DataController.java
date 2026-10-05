@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/data/gdp")
-public class GDPController {
+public class DataController {
 
-    public GDPController(GDPService GDPService){
+    public DataController(GDPService GDPService){
         this.GDPService = GDPService;
     }
 
@@ -30,6 +30,11 @@ public class GDPController {
     @GetMapping("/divergence")
     public ResponseEntity<String> getGdp_divergence() {
         return GDPService.getGDP_Divergence();
+    }
+
+    @GetMapping("/unemployment")
+    public ResponseEntity<String> getUnemploymentRate() {
+        return GDPService.getUnemploymentRate();
     }
 
 }
