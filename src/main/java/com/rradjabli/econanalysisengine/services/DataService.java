@@ -1,6 +1,6 @@
 package com.rradjabli.econanalysisengine.services;
 
-import com.rradjabli.econanalysisengine.entitiy.Data;
+import com.rradjabli.econanalysisengine.entitiy.EconomicDataTimeSeries;
 import com.rradjabli.econanalysisengine.utility.DataCalculator;
 import com.rradjabli.econanalysisengine.utility.EconomicDataParser;
 import com.rradjabli.econanalysisengine.utility.WorldBankApiRequests;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -53,9 +52,10 @@ public class DataService {
     }
 
     @Cacheable(value = "economicData", key = "'unemploymentRate'")
-    public ResponseEntity<List<Data>> getUnemploymentRate() {
-        List<Data> list = economicDataParser.parseDataToObjectList(WorldBankApiRequests.getRawUnemploymentData());
-        return ResponseEntity.ok(list);
+    public ResponseEntity<EconomicDataTimeSeries> getUnemploymentRate() {
+        EconomicDataTimeSeries unemploymentData = economicDataParser
+                .parseUniqueDataToObject(WorldBankApiRequests.getRawUnemploymentData());
+        return ResponseEntity.ok(unemploymentData);
     }
 
 

@@ -1,13 +1,11 @@
 package com.rradjabli.econanalysisengine.controllers;
 
-import com.rradjabli.econanalysisengine.entitiy.Data;
+import com.rradjabli.econanalysisengine.entitiy.EconomicDataTimeSeries;
 import com.rradjabli.econanalysisengine.services.DataService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 
 @RestController
@@ -36,7 +34,7 @@ public class DataController {
     }
 
     @GetMapping("/unemployment")
-    public ResponseEntity<List<Data>> getUnemploymentRate() {
+    public ResponseEntity<EconomicDataTimeSeries> getUnemploymentRate() {
         return DataService.getUnemploymentRate();
     }
 
