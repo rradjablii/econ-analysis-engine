@@ -1,12 +1,12 @@
 package com.rradjabli.econanalysisengine.utility;
 
+import com.rradjabli.econanalysisengine.entitiy.Data;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class EconomicDataParser {
@@ -70,6 +70,32 @@ public class EconomicDataParser {
         }
 
         return null;
+    }
+
+    public List<Data> parseDataToObjectList(String json){
+        List<Data> data = new ArrayList<>();
+
+        try{
+            JsonNode root = objectMapper.readTree(json);
+            JsonNode array = findArrayInsideNode(root);
+
+            assert array != null;
+            for (JsonNode observation : array) {
+                JsonNode yearNode = observation.get("TIME_PERIOD");
+                JsonNode valueNode = observation.get("OBS_VALUE");
+
+                if(yearNode == null || valueNode == null || valueNode.isNull()){
+                    continue;
+                }
+
+                data.add(new Data(yearNode.asInt(), new BigDecimal(valueNode.asString())));
+
+            }
+        }catch (Exception e){
+            throw new RuntimeException("Failed to parse economic data to list of objects", e);
+        }
+
+        return data;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.rradjabli.econanalysisengine.services;
 
+import com.rradjabli.econanalysisengine.entitiy.Data;
 import com.rradjabli.econanalysisengine.utility.DataCalculator;
 import com.rradjabli.econanalysisengine.utility.EconomicDataParser;
 import com.rradjabli.econanalysisengine.utility.WorldBankApiRequests;
@@ -8,14 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Service
-public class GDPService {
+public class DataService {
 
     private final EconomicDataParser economicDataParser;
 
-    public GDPService(EconomicDataParser economicDataParser) {
+    public DataService(EconomicDataParser economicDataParser) {
         this.economicDataParser = economicDataParser;
     }
 
@@ -51,10 +53,9 @@ public class GDPService {
     }
 
     @Cacheable(value = "economicData", key = "'unemploymentRate'")
-    public ResponseEntity<String> getUnemploymentRate() {
-        String unemploymentRate = WorldBankApiRequests.getRawUnemploymentData();
-        unemploymentRate = economicDataParser.parseValueByYear(unemploymentRate).toString();
-        return ResponseEntity.ok(unemploymentRate);
+    public ResponseEntity<List<Data>> getUnemploymentRate() {
+        List<Data> list = economicDataParser.parseDataToObjectList(WorldBankApiRequests.getRawUnemploymentData());
+        return ResponseEntity.ok(list);
     }
 
 

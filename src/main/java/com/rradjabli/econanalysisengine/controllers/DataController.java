@@ -1,40 +1,43 @@
 package com.rradjabli.econanalysisengine.controllers;
 
-import com.rradjabli.econanalysisengine.services.GDPService;
+import com.rradjabli.econanalysisengine.entitiy.Data;
+import com.rradjabli.econanalysisengine.services.DataService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/data/gdp")
 public class DataController {
 
-    public DataController(GDPService GDPService){
-        this.GDPService = GDPService;
+    public DataController(DataService DataService){
+        this.DataService = DataService;
     }
 
-    private final GDPService GDPService;
+    private final DataService DataService;
 
     @GetMapping("/real")
     public ResponseEntity<String> getGdp_real() {
-        return GDPService.getGDP_Real();
+        return DataService.getGDP_Real();
     }
 
     @GetMapping("/nominal")
     public ResponseEntity<String> getGdp_nominal() {
-        return GDPService.getGDP_Nominal();
+        return DataService.getGDP_Nominal();
     }
 
     @GetMapping("/divergence")
     public ResponseEntity<String> getGdp_divergence() {
-        return GDPService.getGDP_Divergence();
+        return DataService.getGDP_Divergence();
     }
 
     @GetMapping("/unemployment")
-    public ResponseEntity<String> getUnemploymentRate() {
-        return GDPService.getUnemploymentRate();
+    public ResponseEntity<List<Data>> getUnemploymentRate() {
+        return DataService.getUnemploymentRate();
     }
 
 }
