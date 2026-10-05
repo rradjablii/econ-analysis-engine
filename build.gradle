@@ -25,6 +25,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     compileOnly 'org.projectlombok:lombok'
+//caching
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    // Source: https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
+    implementation("com.github.ben-manes.caffeine:caffeine:3.3.0")
 //    runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'io.netty:netty-resolver-dns-native-macos'
     runtimeOnly 'io.netty:netty-resolver-dns-native-macos::osx-aarch_64'

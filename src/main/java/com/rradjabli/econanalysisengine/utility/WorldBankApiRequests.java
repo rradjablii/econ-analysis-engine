@@ -2,7 +2,7 @@ package com.rradjabli.econanalysisengine.utility;
 
 import org.springframework.web.reactive.function.client.WebClient;
 
-public class FredApiRequests {
+public class WorldBankApiRequests {
 
     private final static WebClient webClient = WebClient.builder().baseUrl("https://data360api.worldbank.org").build();
 

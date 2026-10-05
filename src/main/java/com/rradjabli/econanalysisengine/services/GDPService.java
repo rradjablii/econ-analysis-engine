@@ -2,7 +2,8 @@ package com.rradjabli.econanalysisengine.services;
 
 import com.rradjabli.econanalysisengine.utility.DataCalculator;
 import com.rradjabli.econanalysisengine.utility.EconomicDataParser;
-import com.rradjabli.econanalysisengine.utility.FredApiRequests;
+import com.rradjabli.econanalysisengine.utility.WorldBankApiRequests;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,9 @@ public class GDPService {
     }
 
     //U.S. gdp in constant US dollars.
+    @Cacheable(value = "economicData", key = "'realGdp'")
     public ResponseEntity<String> getGDP_Real() {
-        String response = FredApiRequests.getRawRealGdpData();
+        String response = WorldBankApiRequests.getRawRealGdpData();
 
         Map<Integer, BigDecimal> gdpByYear = economicDataParser.parseValueByYear(response);
 
@@ -28,8 +30,9 @@ public class GDPService {
     }
 
     //U.S. gdp in current US dollars.
+    @Cacheable(value = "economicData", key = "'nominalGdp'")
     public ResponseEntity<String> getGDP_Nominal() {
-        String response = FredApiRequests.getRawNominalGdpData();
+        String response = WorldBankApiRequests.getRawNominalGdpData();
 
         Map<Integer, BigDecimal> gdpByYear = economicDataParser.parseValueByYear(response);
 
@@ -37,9 +40,10 @@ public class GDPService {
     }
 
     //divergence between real and nominal gdp.
+    @Cacheable(value = "economicData", key = "'divergence'")
     public ResponseEntity<String> getGDP_Divergence() {
-        String real = FredApiRequests.getRawRealGdpData();
-        String nominal = FredApiRequests.getRawNominalGdpData();
+        String real = WorldBankApiRequests.getRawRealGdpData();
+        String nominal = WorldBankApiRequests.getRawNominalGdpData();
         Map<Integer, BigDecimal> divergence = DataCalculator.calculateCumulativeDivergence(
                 economicDataParser.parseValueByYear(real),
                 economicDataParser.parseValueByYear(nominal));
